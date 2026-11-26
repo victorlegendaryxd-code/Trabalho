@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EstudaComigo</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <div class="nav wrap">
+        <a class="brand" href="#"><span class="logo">E</span> EstudaComigo</a>
+        <nav>
+          <a href="#materias">Matérias</a>
+          <a href="#tutores">Tutores</a>
+          <a href="#agenda">Estudos</a>
+        </nav>
+        <button id="loginButton" class="btn btn-outline" onclick="openModal('login')">
+            Entrar
+        </button>
+
+        <button id="registerButton" class="btn" onclick="openModal('register')">
+            Cadastrar
+        </button>
+
+<span id="userName" style="display:none;"></span>
+
+<button
+    id="adminButton"
+    class="btn"
+    style="display:none;"
+    onclick="document.getElementById('adminPanel').scrollIntoView({behavior:'smooth'})">
+    Administração
+</button>
+
+<button
+    id="logoutButton"
+    class="btn btn-outline"
+    style="display:none;"
+    onclick="logout()">
+    Sair
+</button>
+        <button class="menu" onclick="document.querySelector('nav').classList.toggle('show')">☰</button>
+      </div>
+    </header>
+
+    <main>
+        <section id="adminPanel" class="section soft" style="display:none;">
+    <div class="wrap">
+        <div class="section-head">
+            <span class="pill">Área restrita</span>
+            <h2>Painel administrativo</h2>
+            <p>Gerencie as solicitações de novos tutores.</p>
+        </div>
+
+        <div id="adminRequests" class="sessions">
+            Carregando solicitações...
+        </div>
+    </div>
+</section>
+      <section class="hero wrap">
+        <div class="hero-copy">
+          <span class="pill">Sua jornada de aprendizagem</span>
+          <h1>Aprender fica mais fácil quando <span>estudamos juntos!</span></h1>
+          <p>Encontre ajuda nas matérias, conecte-se com tutores e organize seus estudos em um só lugar.</p>
+          <div class="actions">
+            <a class="btn" href="#tutores">Encontrar tutor</a>
+            <a class="btn btn-outline" href="#como">Como funciona</a>
+          </div>
+          <div class="stats">
+            <div>
+              <b>+12</b>
+              <small>matérias</small>
+            </div>
+            <div>
+              <b>+6</b>
+              <small>tutores demo</small>
+            </div>
+            <div>
+              <b>100%</b>
+              <small>colaborativo</small>
+            </div>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="orb"></div>
+          <div class="book">📚</div>
+          <div class="note note1">✏️ Aprenda no seu ritmo</div>
+          <div class="note note2">💡 Compartilhe conhecimento</div>
+          <div class="note note3">🎯 Foco nos seus objetivos</div>
+        </div>
+      </section>
+
+      <section class="section wrap" id="como">
+        <div class="section-head">
+          <span class="pill">Simples e colaborativo</span>
+          <h2>Estude de um jeito diferente</h2>
+          <p>Encontre apoio e transforme suas dúvidas em aprendizado.</p>
+        </div>
+        <div class="features">
+          <article>
+            <div class="icon">📘</div>
+            <h3>Explore matérias</h3>
+            <p>Busque a matéria que precisa e veja tutores disponíveis.</p>
+          </article>
+          <article>
+            <div class="icon">🤝</div>
+            <h3>Conecte-se</h3>
+            <p>Conheça tutores e combine a melhor forma de aprender.</p>
+          </article>
+          <article>
+            <div class="icon">🗓️</div>
+            <h3>Organize seu estudo</h3>
+            <p>Agende sessões e reúna materiais para estudar.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section soft" id="materias">
+        <div class="wrap">
+          <div class="section-head rowhead">
+            <div>
+              <span class="pill">Conhecimento ao alcance</span>
+              <h2>Explore matérias</h2>
+            </div>
+            <input id="subjectSearch" placeholder="Buscar matéria..." oninput="filterSubjects()">
+          </div>
+          <div id="subjectGrid" class="subject-grid"></div>
+        </div>
+      </section>
+
+      <section class="section wrap" id="tutores">
+        <div class="section-head rowhead">
+          <div>
+            <span class="pill">Aprenda com outras pessoas</span>
+            <h2>Tutores disponíveis</h2>
+          </div>
+          <select id="tutorFilter" onchange="filterTutors()">
+            <option value="">Todas as matérias</option>
+          </select>
+        </div>
+        <div id="tutorGrid" class="tutor-grid"></div>
+      </section>
+
+      <section class="section soft" id="agenda">
+         <section class="section soft" id="solicitarTutor">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="pill">Compartilhe conhecimento</span>
+            <h2>Quero ser tutor!</h2>
+            <p>Gosta de ensinar? Envie uma solicitação para fazer parte da nossa equipe de tutores.</p>
+          </div>
+
+          <div id="tutorRequestMessage" class="panel">
+            Entre na sua conta para solicitar sua participação como tutor.
+          </div>
+
+          <form id="tutorRequestForm" class="panel" style="display:none;">
+            <label>
+              Por que você gostaria de ser tutor?
+              <textarea
+                name="message"
+                required
+                maxlength="1000"
+                placeholder="Conte um pouco sobre seus conhecimentos e como gostaria de ajudar outros estudantes."
+              ></textarea>
+            </label>
+
+            <button class="btn" type="submit">
+              Enviar solicitação
+            </button>
+          </form>
+        </div>
+      </section>
+        <div class="wrap schedule-layout">
+          <div>
+            <span class="pill">Planeje sua rotina</span>
+            <h2>Agende uma sessão</h2>
+            <p>Escolha um tutor, informe a matéria e combine um horário. Os agendamentos ficam salvos neste navegador no modo demonstração.</p>
+          </div>
+          <form id="scheduleForm" class="panel">
+            <label>Seu nome
+              <input required name="student" placeholder="Nome do estudante">
+            </label>
+            <label>Tutor
+              <select required name="tutor" id="scheduleTutor"></select>
+            </label>
+            <label>Data e horário
+              <input required name="date" type="datetime-local">
+            </label>
+            <label>Assunto / matéria
+              <input name="subject" placeholder="Ex.: Equações de 2º grau">
+            </label>
+            <label>Material (link)
+              <input name="material" type="url" placeholder="https://... (opcional)">
+            </label>
+            <button class="btn" type="submit">Solicitar sessão</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="section wrap">
+        <div class="section-head">
+          <span class="pill">Seu espaço de estudo</span>
+          <h2>Minhas sessões</h2>
+          <p>Veja as solicitações feitas por você neste dispositivo.</p>
+        </div>
+        <div id="sessions" class="sessions"></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap footer">
+        <div class="brand"><span class="logo">E</span> EstudaComigo</div>
+        <p>Aprender fica mais fácil quando estudamos juntos!</p>
+        <small>Protótipo demonstrativo · EstudaComigo</small>
+      </div>
+    </footer>
+
+    <div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
+      <div class="modal">
+        <button class="close" onclick="closeModal()">×</button>
+        <h2 id="modalTitle">Cadastro</h2>
+        <form id="authForm">
+          <label>Nome
+            <input required name="name" placeholder="Seu nome">
+          </label>
+          <label>E-mail
+            <input required type="email" name="email" placeholder="voce@email.com">
+          </label>
+          <label>Senha
+            <input required type="password" name="password" minlength="6" placeholder="Mínimo 6 caracteres">
+          </label>
+          <label>Perfil
+            <select name="role">
+              <option>Estudante</option>
+              <option>Tutor</option>
+              <option>Professor</option>
+            </select>
+          </label>
+          <label id="subjectsLabel">Matérias que pode ensinar
+            <input name="subjects" placeholder="Ex.: Matemática, Física">
+          </label>
+          <button class="btn full" type="submit">Criar conta</button>
+          <p class="muted" id="authMessage">Demo: cadastro local, não envia dados a servidor.</p>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
